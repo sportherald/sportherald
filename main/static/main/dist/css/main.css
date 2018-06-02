@@ -1,0 +1,228 @@
+body {
+    /*padding-top: 20px;*/
+
+}
+
+.main {
+    padding-top: 120px;
+    background-image: url("../../assets/img/soccer-sports-backgrounds-wallpapers.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+a {
+    color: #974679;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #974679;
+}
+
+btn.btn-outline-primary {
+    /*line-height: 0.6;*/
+    color: rgba(0, 0, 0, .9);
+    background-image: none;
+    background-color: transparent;
+    border-color: #974679;
+
+}
+
+btn.btn-outline-primary:hover {
+    /*line-height: 0.6;*/
+
+    background-color: #974679;
+
+}
+
+header {
+    position: fixed;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    padding-right: 0.25rem;
+    display: block;
+}
+
+#navbarCollapse .navbar-nav .nav-item {
+    margin: 0 10px;
+    list-style: none;
+    /*padding: 1.125rem 0.25rem;*/
+    transition: 0.3s all ease-in-out;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.navbar.mainnav {
+    background-color: white;
+}
+
+.navbar.mainnav .nav-item.active {
+    border-bottom: thin solid #974679;
+}
+
+.navbar.mainnav .nav-item:hover {
+    border-bottom: thin solid #974679;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(59.5,27.5,47.5,.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
+}
+
+.navbar.mainnav .nav-item .nav-link {
+    color: black;
+}
+
+#reviewNav {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+
+}
+
+#reviewNav > div {
+    overflow-x: auto;
+}
+
+#reviewNav .navbar-nav {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+#reviewNav .navbar-nav .nav-link {
+    padding-right: .5rem;
+    padding-left: .5rem;
+    margin-right: .2rem;
+    margin-left: .2rem;
+    color: #974679;
+
+}
+
+#reviewNav .navbar-nav .nav-link.btn {
+    /*line-height: 0.6;*/
+    color: rgba(0, 0, 0, .9);
+    background-image: none;
+    background-color: transparent;
+    border-color: #974679;
+
+}
+
+#reviewNav .navbar-nav .nav-link.btn:hover {
+    /*line-height: 0.6;*/
+    background-color: #974679;
+    color: white;
+
+}
+
+#reviewNav > div::-webkit-scrollbar {
+    padding-top: 5px;
+    width: 5px;
+    height: 4px;
+    cursor: pointer;
+}
+
+#reviewNav > div::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #717171;
+    cursor: pointer;
+    /*-webkit-box-shadow: inset 0 0 6px #A4A4A4;*/
+}
+
+#reviewNav > div::-webkit-scrollbar-track {
+    /*background: #2c2c2c;*/
+    /*border-radius: 10px;*/
+    cursor: pointer;
+
+}
+
+#content {
+    margin-top: 20px;
+}
+
+#content .card {
+    margin-bottom: 30px;
+    border-right: solid thin #974679;
+}
+
+#predictions .card .card-title .user {
+    font-size: 1.1rem;
+    font-weight: 500;
+
+}
+
+#predictions .card .card-title .time {
+    font-size: 0.7rem;
+    color: #974679;
+
+}
+
+#predictions .card .card-body {
+    padding: 0 30px;
+
+}
+
+#predictions .card .card-body img {
+    /*width: 100px;*/
+    /*height: 100px;*/
+    /*float: left;*/
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+#predictions .card .card-footer .icon {
+    padding: 0 20px;
+    display: inline-block;
+}
+
+#predictions .card .card-block h5 {
+    color: #974679;
+}
+
+#predictions .card .card-footer .icon .fa {
+    font-size: 1.4rem;
+}
+
+#sidenav {
+
+}
+
+#sidenav button i {
+    padding-left: 5px;
+}
+
+#sidenav ul {
+    padding: 0;
+    margin: 0;
+}
+
+#sidenav ul li {
+    list-style: none;
+    padding: 10px;
+    border-bottom: thin solid lightgray;
+}
+
+#sidenav ul li:last-of-type {
+    list-style: none;
+    padding: 10px;
+    border-bottom: none;
+}
