@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #974679;
 }
 
-btn.btn-outline-primary {
+.btn.btn-outline-primary {
     /*line-height: 0.6;*/
     color: rgba(0, 0, 0, .9);
     background-image: none;
@@ -29,7 +29,7 @@ btn.btn-outline-primary {
 
 }
 
-btn.btn-outline-primary:hover {
+.btn.btn-outline-primary:hover {
     /*line-height: 0.6;*/
 
     background-color: #974679;
@@ -202,6 +202,11 @@ header {
     font-size: 1.4rem;
 }
 
+#predictions .card .card-header .badge-info, .badge-danger, .badge-success {
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
 #sidenav {
 
 }
@@ -225,4 +230,77 @@ header {
     list-style: none;
     padding: 10px;
     border-bottom: none;
+}
+
+#details {
+
+}
+
+#details .card {
+    margin-bottom: 30px;
+    border-right: solid thin #974679;
+}
+
+#detailpage .bg-img {
+    padding: 10% 50%;
+    background-position: center;
+    background-size: cover;
+    margin: 0 -15px;
+    margin-bottom: 20px;
+
+}
+
+#detailpage {
+    background-color: white;
+    margin-bottom: 30px;
+    border-right: solid thin #974679;
+}
+
+#detailpage .detailcontainer {
+    margin: 30px;
+}
+
+#detailpage .user {
+    font-size: 1.1rem;
+    font-weight: 500;
+
+}
+
+#detailpage .time {
+    font-size: 0.7rem;
+    color: #974679;
+
+}
+
+#detailpage .detailContent {
+    margin-top: 10px;
+}
+
+#detailpage .commentSection {
+    margin-top: 40px;
+}
+
+#detailpage .commentno {
+    margin-bottom: 50px;
+}
+
+#detailpage .commentno hr {
+    margin-top: 0.5rem;
+    background-color: #974679;
+}
+
+#detailpage .comment p {
+    font-size: 0.8rem;
+}
+
+#detailpage .comment.sub {
+    margin-left: 17%;
+}
+
+#detailpage .addcomment {
+    margin-top: 40px;
+}
+
+#detailpage .addcomment .btn {
+    background-color: #974679;
 }
