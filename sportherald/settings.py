@@ -25,7 +25,7 @@ SECRET_KEY = 'ot54^(si2l7bg0oirmua)u%7y715u3u6gh9zpj&fpnn@7h6_4w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://sportherald.pythonanywhere.com/']
+ALLOWED_HOSTS = ['sportherald.pythonanywhere.com']
 
 
 # Application definition
