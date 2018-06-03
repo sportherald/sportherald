@@ -11,10 +11,10 @@
     <title>SportsHerald</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'main/dist/css/bootstrap.min.css' %} " rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="dist/css/main.css" rel="stylesheet">
+    <link href="{% static 'main/dist/css/main.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -26,8 +26,8 @@
                     aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" style="color: #974679;"></span>
             </button>
-            <a class="navbar-brand ml-sm-2 ml-md-3 ml-lg-4" href="#">
-                <img src="assets/img/sport_1.png" class="img-fluid" width="102px" height="80px">
+            <a class="navbar-brand ml-sm-2 ml-md-3 ml-lg-4" href="{% url 'main:home'%}">
+                <img src="{% static 'main/assets/img/sport_1.png' %}" class="img-fluid" width="102px" height="80px">
             </a>
             <div class="collapse navbar-collapse  justify-content-md-center" id="navbarCollapse">
                 <ul class="navbar-nav">
@@ -38,13 +38,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Terms of Service</a>
                     </li>
+                    {% if user.is_staff %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Review</a>
+                        <a class="nav-link" href="{% url 'main:review_posts' %}">Review</a>
                     </li>
+                    {% endif %}
 
                     <li class="nav-item active">
                         <a class="nav-link" href="#">FAQ <span class="sr-only">(current)</span></a>
                     </li>
+
+                    <!--li class="nav-item active">
+                        <a class="nav-link" href="#">FAQ <span class="sr-only">(current)</span></a>
+                    </li-->
                 </ul>
             </div>
         </nav>
@@ -53,52 +59,37 @@
             <div class=" justify-content-md-center ">
                 <ul class="navbar-nav">
                     <li class="nav-item active ">
-                        <a class="nav-link btn btn-outline-primary" href="#"><b>All</b><span
+                        <a data_id="*" class="nav-link btn btn-outline-primary sport_nav" href="#"><b>All</b><span
                                 class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">Soccer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">Basket ball</a>
-                    </li>
+                    {% for sport in sports  %}
 
                     <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">Lawn tennis</a>
+                        <a class="nav-link btn btn-outline-primary sport_nav" data_id="{{ sport.id }}" href="#">{{sport.name}}</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">Cricket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">Rugby</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">Ice Hockey</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">American Football</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">Golf</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">BaseBall</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="#">Table Tennis</a>
-                    </li>
+                    {% endfor  %}
                 </ul>
             </div>
         </nav>
     </header>
+<div class="container" id="content">
+        <div class="row">
+            <div class="col-md-8 col-sm-12 " id="predictions">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{message.tags}} alert-dismissable">
+                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  <strong>{{message}}</strong>
+                </div>
+                {%endfor%}
+              {% endif %}
 
     {% block content %}{% endblock %}
+            </div>
 
            <div class="col-md-4 col-sm-12" id="sidenav">
+               {% if not user.is_authenticated %}
                 <div class="card">
                     <div class="card-block ">
                         <!--<img src="assets/img/user_male2-512.png" class="img-thumbnail ">-->
@@ -108,9 +99,10 @@
                         <p class="text-center">SportHerald uses the steem blockchain to reward predictors with accurate
                             forecasting ability</p>
                         <button class="btn btn-block btn-lg">Sign Up <i class="fa fa-user"></i></button>
-                        <button class="btn btn-block btn-lg">Login<i class="fa fa-sign-in"></i></button>
+                        <a class="btn btn-block btn-lg" href="https://steemconnect.com/oauth2/authorize?client_id=sportherald.app&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Facc%2Foauth%2Fcallback%2F&scope=offline,login,comment" >Login<i class="fa fa-sign-in"></i></a>
                     </div>
                 </div>
+               {% else %}
 
                 <div class="card">
                     <div class="card-block text-center">
@@ -120,7 +112,7 @@
                         </h5>
                         <div>
                             <ul>
-                                <li><a href="#" data-toggle="modal" data-target="#exampleModal">Soccer</a></li>
+                                <!--li><a href="#" class="sport_cat" sport_name="Soccer"  sport_id="1" >Soccer</a></li>
                                 <li><a href="#"> B.Ball</a></li>
                                 <li><a href="#">L.Tennis</a></li>
                                 <li><a href="#">Rugby</a></li>
@@ -128,47 +120,59 @@
                                 <li><a href="#">American F.ball</a></li>
                                 <li><a href="#">Golf</a></li>
                                 <li><a href="#">Base Ball</a></li>
-                                <li><a href="#">T. Tennis</a></li>
+                                <li><a href="#">T. Tennis</a></li-->
+                                {% for sport in sports %}
+                                <li><a href="#" class="sport_cat " style="text-transform: capitalize" sport_name="{{ sport.name }}"  sport_id="{{ sport.id }}" >{{ sport.name }}</a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
                 </div>
+               {% endif%}
             </div>
         </div>
 
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg modal-" role="document">
         <div class="modal-content">
+
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Soccer Predictions</h5>
+                <h5 class="modal-title" id="exampleModalLabel"><span id="sport_name">Soccer</span> Predictions</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
-                <form>
+                <form method="post" action="{% url 'main:create_post' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="sport" id="id_sport" value="">
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Title</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <input type="text" name="title" class="form-control" id="id_title">
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Make your prediction:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
+                        <textarea class="form-control" name="body" id="id_body"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="recipient-tag" class="col-form-label">Tag</label>
-                        <input type="text" class="form-control" id="recipient-tag">
+                        <label for="recipient-tag" class="col-form-label">Tags</label>
+                        <input type="text" name="tags" id="id_tags" class="form-control" id="recipient-tag">
                     </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
+
+
             </div>
+
         </div>
     </div>
 </div>
@@ -178,17 +182,38 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>-->
-<script src="assets/js/vendor/jquery-slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <!--<script>window.jQuery || document.write('<script src=assets/js/vendor/jquery-slim.min.js"><\/script>')</script>-->
 <!--<script>window.jQuery || document.write('<script src=assets/js/vendor/jquery.min.js"><\/script>')</script>-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>-->
-<script src="assets/js/vendor/tether.min.js"
+<script src="{% static 'main/assets/js/vendor/tether.min.js' %}"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
         crossorigin="anonymous"></script>
-<script src="dist/js/bootstrap.min.js"></script>
+<script src="{% static 'main/dist/js/bootstrap.min.js' %}"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-<script src="assets/js/vendor/holder.min.js"></script>
+<script src="{% static 'main/assets/js/vendor/holder.min.js' %}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="{% static 'main/assets/js/ie10-viewport-bug-workaround.js' %}"></script>
+<script src="./steem.min.js"></script>
+<script>
+    $('.sport_cat').click(function(e){
+        e.preventDefault();
+        sport_id=$(this).attr('sport_id');
+        sport_name=$(this).attr('sport_name');
+        $('#postModal .modal-title #sport_name').text(sport_name);
+
+        $('#id_sport').val(sport_id);
+        console.log(sport_id)
+
+
+        $('#postModal').modal('show')
+    })
+    localStorage.setItem('offset',20)
+
+    steem.api.setOptions({ url: 'https://api.steemit.com' })
+
+</script>
+{% block scripts %}
+{% endblock %}
 </body>
 </html>
