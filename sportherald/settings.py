@@ -133,3 +133,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 UPLOAD_TO = os.path.join(BASE_DIR, 'media/upload')
 PAGE_LENGTH=20
 PAGE_ADD=10
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
