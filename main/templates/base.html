@@ -48,9 +48,7 @@
                         <a class="nav-link" href="#">FAQ <span class="sr-only">(current)</span></a>
                     </li>
 
-                    <!--li class="nav-item active">
-                        <a class="nav-link" href="#">FAQ <span class="sr-only">(current)</span></a>
-                    </li-->
+
                 </ul>
             </div>
         </nav>
@@ -99,9 +97,10 @@
                         <p class="text-center">SportHerald uses the steem blockchain to reward predictors with accurate
                             forecasting ability</p>
                         <button class="btn btn-block btn-lg">Sign Up <i class="fa fa-user"></i></button>
-                        <a class="btn btn-block btn-lg" href="https://steemconnect.com/oauth2/authorize?client_id=sportherald.app&response_type=code&redirect_uri=http%3A%2F%2Fsportherald.pythonanywhere.com%2Facc%2Foauth%2Fcallback%2F&scope=offline,login,comment" >Login<i class="fa fa-sign-in"></i></a>
+                        <a class="btn btn-block btn-lg" href="https://steemconnect.com/oauth2/authorize?client_id=sportherald.app&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Facc%2Foauth%2Fcallback%2F&scope=offline,login,comment" >Login<i class="fa fa-sign-in"></i></a>
                     </div>
                 </div>
+
                {% else %}
 
                 <div class="card">
@@ -112,15 +111,7 @@
                         </h5>
                         <div>
                             <ul>
-                                <!--li><a href="#" class="sport_cat" sport_name="Soccer"  sport_id="1" >Soccer</a></li>
-                                <li><a href="#"> B.Ball</a></li>
-                                <li><a href="#">L.Tennis</a></li>
-                                <li><a href="#">Rugby</a></li>
-                                <li><a href="#">Ice Hockey</a></li>
-                                <li><a href="#">American F.ball</a></li>
-                                <li><a href="#">Golf</a></li>
-                                <li><a href="#">Base Ball</a></li>
-                                <li><a href="#">T. Tennis</a></li-->
+
                                 {% for sport in sports %}
                                 <li><a href="#" class="sport_cat " style="text-transform: capitalize" sport_name="{{ sport.name }}"  sport_id="{{ sport.id }}" >{{ sport.name }}</a></li>
                                 {% endfor %}
