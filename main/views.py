@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 # Create your views here.
 
@@ -44,6 +45,22 @@ class ViewMixin:
 class homeView(ViewMixin, ListView):
     main_queryset=Post.objects.filter(status='approved').order_by('-approved_date')
     queryset =main_queryset[:settings.PAGE_LENGTH]
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class BlogView(LoginRequiredMixin, ViewMixin, ListView):
+
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user).order_by('-approved_date')[:settings.PAGE_LENGTH]
+
+    def post(self, request, *args, **kwargs):
+        self.main_queryset=Post.objects.filter(author=self.request.user).order_by('-approved_date')
+        return  super(BlogView, self).post(request, *args, **kwargs)
+
+
+
+
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')

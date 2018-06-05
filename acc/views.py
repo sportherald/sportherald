@@ -5,9 +5,9 @@ import requests
 from .models import Profile
 from django.contrib.auth.models import User
 import json
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 import pdb
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 
 
 # Create your views here.
@@ -47,4 +47,11 @@ class handleCode(View):
 
         #sportherald.pythonanywhere.com
 
+
+def user_logout(request):
+    if request.user.is_authenticated:
+        logout(request)
+        return HttpResponseRedirect('/')
+    else:
+        return Http404('Invalid url')
 

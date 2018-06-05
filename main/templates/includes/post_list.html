@@ -15,7 +15,7 @@
             <span class="user">
   {{ post.author }}
 </span>
-            <span class="time"> @ 6 hours ago</span>
+            <span class="time"> @ {{post.created_date|timesince}} ago</span>
         </div>
         <div class="card-body">
             <div class="row">
