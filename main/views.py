@@ -68,6 +68,11 @@ class reviewView(ViewMixin,ListView):
     main_queryset=Post.objects.filter(status='submitted').order_by('-created_date')
     queryset = main_queryset[:settings.PAGE_LENGTH]
 
+    def get_context_data(self, *args, **kwargs):
+        context=super(reviewView, self).get_context_data(*args, **kwargs)
+        context['page']='review'
+        return context
+
 
 class CreatePost(CreateView):
     model=Post
