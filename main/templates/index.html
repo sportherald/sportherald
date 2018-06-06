@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ <div id="post_list">
+{% include 'includes/post_list.html' %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+      $('.sport_nav').click(function(e){
+          e.preventDefault();
+          sport_id=$(this).attr('data_id');
+          url_path=window.location.pathname;
+          $.post( url_path, {'offset':'0', 'sport_id':sport_id} )
+              .done(function(data){
+                 $('#post_list').html(data.data);
+                  localStorage.setItem('offset', data.offset);
+                   })
+              .fail(function(){
+                  alert('Network Error');
+          });
+      });
+
+      $('.post_action').click(function(e){
+          e.preventDefault();
+          id=$(this).attr('data_id');
+          status=$(this).attr('action')
+          $.post("{% url 'main:post_status' %}", {'id':id, 'status':status})
+              .done(function(data){
+
+                  $('#post_list').html(data.data);
+                  alert(data.messagae);
+
+              })
+              .fail(function(err){
+                  alert('Network Error')
+              })
+      })
+
+    </script>
+{% endblock %}
