@@ -28,17 +28,19 @@ class handleCode(View):
         headers={'Authorization': access_token}
         me_response=requests.get(me_url,headers=headers)
         me_response=me_response.json()
+        #pdb.set_trace()
         posting_key=me_response.get('account').get('posting').get('key_auths')[0][0]
         active_key=me_response.get('account').get('active').get('key_auths')[0][0]
         memo_key=me_response.get('account').get('memo_key')
-        #pdb.set_trace()
+
         try:
             user=User.objects.get(username=username)
         except User.DoesNotExist:
             user=User.objects.create_user(username=username)
             profile=Profile.objects.create(posting_key=posting_key, active_key=active_key,
-                                           memo_key=memo_key, user=user)
+                                           memo_key=memo_key, user=user, refresh_token=refresh_token)
         user=login(request, user)
+        request.session['access_token'] = access_token
         return HttpResponseRedirect('/')
 
 

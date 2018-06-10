@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView
 from .models import Post, Sport
+from acc.models import Profile
 from .forms import PostForm
 from django.http import JsonResponse, HttpResponseRedirect, Http404
 import pdb
@@ -12,6 +13,11 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
+from django.contrib.auth.models import  User
+import json
+import requests
+from steemconnect.client import Client
+from steemconnect.operations import Comment
 # Create your views here.
 
 class ViewMixin:
@@ -35,7 +41,11 @@ class ViewMixin:
             else:
                 posts = self.main_queryset.filter(sport_id=sport_id)[offset:new_offset]
                 #pdb.set_trace()
-            response = render_to_string('includes/post_list.html', {'posts': posts})
+            if self.page == 'review':
+                context={'posts': posts, 'page': 'review'}
+            else:
+                context = {'posts': posts}
+            response = render_to_string('includes/post_list.html', context)
             return JsonResponse({'data': response, 'offset': new_offset})
         else:
             return Http404('Invalid Access')
@@ -51,16 +61,11 @@ class homeView(ViewMixin, ListView):
 class BlogView(LoginRequiredMixin, ViewMixin, ListView):
 
     def get_queryset(self):
-        return Post.objects.filter(author=self.request.user).order_by('-approved_date')[:settings.PAGE_LENGTH]
+        return Post.objects.filter(author=self.request.user).order_by('-created_date')[:settings.PAGE_LENGTH]
 
     def post(self, request, *args, **kwargs):
-        self.main_queryset=Post.objects.filter(author=self.request.user).order_by('-approved_date')
+        self.main_queryset=Post.objects.filter(author=self.request.user).order_by('-created_date')
         return  super(BlogView, self).post(request, *args, **kwargs)
-
-
-
-
-
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -73,6 +78,10 @@ class reviewView(ViewMixin,ListView):
         context['page']='review'
         return context
 
+    def post(self,request,*args, **kwargs):
+        self.page='review'
+        return super(reviewView, self).post(request, *args, **kwargs)
+
 
 class CreatePost(CreateView):
     model=Post
@@ -81,16 +90,49 @@ class CreatePost(CreateView):
     def form_valid(self, form):
         post=form.save(commit=False)
         post.author=self.request.user
+        tags=self.request.POST.get('tags')
+        tags_list=tags.split(',')
         post.status='submitted'
         post.save()
         form.save_m2m()
         messages.success(self.request, 'Post Submitted and under review')
+
+        if not self.request.user.username == 'admin':# remember to remove in production
+            user=self.request.user
+        else:
+            user=User.objects.get(username='areoye')
+
+        profile=Profile.objects.get(user=user)
+        posting_key=profile.posting_key
+        refresh_token = profile.refresh_token
+        url = "https://v2.steemconnect.com/api/oauth2/token"
+        response_access = requests.post(url, data={'refresh_token': refresh_token,
+                                                   'client_id': 'sportherald.app',
+                                                   'client_secret': settings.CLIENT_SECRET,
+                                                   'scope': "vote,comment,offline"})
+        access_token = response_access.json().get('access_token')
+        c=Client(access_token=access_token)
+        comment=Comment(
+            author=user.username,
+            permlink=post.slug,
+            body=post.body,
+            title=post.title,
+            parent_permlink="sportherald",
+            json_metadata={"app": "sportherlad.app", 'tags':tags_list}
+        )
+        c.broadcast([comment.to_operation_structure()])
+
+
+        #return JsonResponse({'status': 200, 'slug': post.slug, 'posting_key': posting_key, 'username': user.username})
         return HttpResponseRedirect('/')
-
-
-
     def form_invalid(self,form):
         pdb.set_trace()
+
+
+
+
+
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PostStatus(View):
@@ -108,8 +150,4 @@ class PostStatus(View):
                                   'data':response})
         except Post.DoesNotExist:
             return JsonResponse({'status':404, 'message':'Post not found'})
-
-
-
-
 
